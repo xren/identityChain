@@ -23,9 +23,8 @@ def index(name=None):
 @nber.route('/nber/post_auth/<uuid>')
 def post_auth(uuid=None):
     # http://identityChain.com/nber/post_auth/uuid=[uuid]
-    uuid = request.args.get('uuid')
     if uuid in uuidlist:
-        return view('/nber/signin.html', name=name)
+        return view('/nber/signin.html', name=uuidlist[uuid])
     else:
         return view('/nber/signup.html')
 
