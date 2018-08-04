@@ -45,3 +45,6 @@ app.register_blueprint(identitychain)
 
 from app.nber.views import nber
 app.register_blueprint(nber)
+
+from app.facial_recognition.views import facial_recognition
+app.register_blueprint(facial_recognition)
