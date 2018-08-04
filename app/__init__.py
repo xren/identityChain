@@ -38,3 +38,10 @@ app.register_blueprint(bucketitems)
 from app.docs.views import docs
 
 app.register_blueprint(docs)
+
+# for hackathon
+from app.identitychain.views import identitychain
+app.register_blueprint(identitychain)
+
+from app.nber.views import nber
+app.register_blueprint(nber)
