@@ -25,17 +25,13 @@
                 context.drawImage(player, 0, 0, canvas.width, canvas.height);
                 $.ajax({
                     type: 'POST',
-                    url: '/api/fr/capture',
+                    url: '/api/fr/addnewface',
                     data: JSON.stringify({
                         imageBase64: canvas.toDataURL()
                     }),
                     contentType: 'application/json'
                 }).done(function(res) {
-                    if (res['matched']) {
-                        alert('matched')
-                    } else {
-                        alert('no match')
-                    }
+                  alert(res['status'])
                 })
               });
             

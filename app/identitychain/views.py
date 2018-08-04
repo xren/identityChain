@@ -10,3 +10,11 @@ def index():
     :return:
     """
     return view('identitychain/index.html')
+
+@identitychain.route('/addnewface')
+def addnewface():
+    """
+    Show an index template
+    :return:
+    """
+    return view('identitychain/addnewface.html')
