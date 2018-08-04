@@ -24,7 +24,7 @@ class CapturedImage(MethodView):
       search_results = api.search(face_token=face_token, faceset_token=FACESET_TOKEN)
       print search_results['results']
       for res in search_results['results']:
-        if res['confidence'] > 70:
+        if res['confidence'] > 80:
           matched_result = True
           matched_token = res['face_token']
           break
