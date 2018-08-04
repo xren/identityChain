@@ -46,7 +46,7 @@ class CapturedImage(MethodView):
           }))
       else:
         return make_response(jsonify({
-          'redirect_url': '/nber/post_auth'
+          'redirect_url': REDIRECT_URL.format(face_token)
         }))
 
 class AddNewImage(MethodView):

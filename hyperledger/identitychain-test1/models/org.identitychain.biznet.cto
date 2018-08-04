@@ -1,0 +1,6 @@
+// namespace
+namespace org.identitychain.biznet
+
+participant user identified by uuid{
+    o String uuid
+}

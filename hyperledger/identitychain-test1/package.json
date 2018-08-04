@@ -1,0 +1,16 @@
+{
+    "name": "identitychain",
+    "version": "0.0.2",
+    "description": "A Fabric-Composer blockchain business network for unique identity",
+    "author": "administrator",
+    "email": "administrator@org.identitychain.biznet",
+    "license": "Apache-2.0",
+    "devDependencies": {
+        "composer-admin": "^0.19.2",
+        "composer-cli": "^0.19.2",
+        "composer-client": "^0.19.2",
+        "composer-common": "^0.19.2",
+        "composer-connector-embedded": "^0.19.2",
+        "composer-cucumber-steps": "^0.19.2"
+    }
+}
