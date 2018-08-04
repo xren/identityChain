@@ -32,22 +32,25 @@ class CapturedImage(MethodView):
       if matched_result:
         r = requests.get('http://localhost:3100/api/user/'+matched_token)
         
-        if r.status_code = 200:
+        if r.status_code == 200:
             uuid = json.loads(r.content)['uuid']
             return make_response(jsonify({
               'redirect_url': REDIRECT_URL.format(uuid)
             }))
         else:
-          data = {"$class": "org.identitychain.biznet.user","uuid": matched_token}
-          response = requests.post('http://localhost:3100/api/user', data=data)
-          uuid = json.loads(response.content)['uuid']
-            return make_response(jsonify({
-              'redirect_url': REDIRECT_URL.format(uuid)
-            }))
-      else:
+          #data = {"$class": "org.identitychain.biznet.user","uuid": matched_token}
+          #response = requests.post('http://localhost:3100/api/user', data=data)
+          #uuid = json.loads(response.content)['uuid']
+          #return make_response(jsonify({
+          #  'redirect_url': REDIRECT_URL.format(uuid)
+          #}))
           return make_response(jsonify({
             'redirect_url': None
           }))
+      else:
+        return make_response(jsonify({
+          'redirect_url': None
+        }))
 
 class AddNewImage(MethodView):
   def post(self):
