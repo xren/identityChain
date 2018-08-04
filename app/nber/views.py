@@ -1,5 +1,4 @@
 from flask import Blueprint, render_template as view
-from flask import request
 
 nber = Blueprint('nber', __name__, static_folder='static', template_folder='templates')
 uuidlist = {
