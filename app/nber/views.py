@@ -4,8 +4,8 @@ from flask import request
 nber = Blueprint('nber', __name__, static_folder='static', template_folder='templates')
 uuidlist = {'Lanchao', 'Seven'}
 
-@nber.route('/nber')
-def index():
+@nber.route('/nber/<name>')
+def index(name=None):
     """
     Show an index template
     :return:
@@ -21,3 +21,4 @@ def post_auth():
         return view('/nber/signin.html')
     else:
         return view('/nber/signup.html')
+
