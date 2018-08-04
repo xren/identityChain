@@ -7,7 +7,7 @@ facial_recognition = Blueprint('facial_recognition', __name__)
 
 api = API('J2WKF74Tb9d2ilM0PZDG6TQCiYulVbdW', 'ewUvvuO8yanG9fTb2HI9PzKPNNi92Amu')
 FACESET_TOKEN = 'd73b8dff7aceb173137627124d8eba21'
-REDIRECT_URL = '/nber/{}'
+REDIRECT_URL = '/nber/post_auth/{}'
 
 class CapturedImage(MethodView):
   def post(self):
@@ -25,19 +25,29 @@ class CapturedImage(MethodView):
       print search_results['results']
       for res in search_results['results']:
         if res['confidence'] > 70:
-          matched_result = res['face_token']
+          matched_result = True
+          matched_token = res['face_token']
           break
-    if matched_result:
-      if matched_result == '955908f21856a8ba3af0ac7362143fcb':
-        name = 'rex'
-      elif matched_result == '66824f9afa377043fc4ad7e1de6090b6':
-        name = 'seven'
-      redirect_url = REDIRECT_URL.format(name)
-    print matched_result
-    return make_response(jsonify({
-      'name': name,
-      'redirect_url': redirect_url
-    }))
+
+      if matched_result:
+        r = requests.get('http://localhost:3100/api/user/'+matched_token)
+        
+        if r.status_code == 200:
+            uuid = json.loads(r.content)['uuid']
+            return make_response(jsonify({
+              'redirect_url': REDIRECT_URL.format(uuid)
+            }))
+        else:
+          data = {"$class": "org.identitychain.biznet.user","uuid": matched_token}
+          response = requests.post('http://localhost:3100/api/user', data=data)
+          uuid = json.loads(response.content)['uuid']
+          return make_response(jsonify({
+           'redirect_url': REDIRECT_URL.format(uuid)
+          }))
+      else:
+        return make_response(jsonify({
+          'redirect_url': '/nber/post_auth'
+        }))
 
 class AddNewImage(MethodView):
   def post(self):

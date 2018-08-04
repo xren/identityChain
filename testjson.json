@@ -1,0 +1,9 @@
+{
+  "$class": "org.identitychain.biznet.user",
+  "uuid": "jjj",
+  "contact": {
+    "$class": "org.identitychain.biznet.ContactInformation",
+    "firstName": "",
+    "lastName": ""
+  }
+}
