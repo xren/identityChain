@@ -38,14 +38,11 @@ class CapturedImage(MethodView):
               'redirect_url': REDIRECT_URL.format(uuid)
             }))
         else:
-          #data = {"$class": "org.identitychain.biznet.user","uuid": matched_token}
-          #response = requests.post('http://localhost:3100/api/user', data=data)
-          #uuid = json.loads(response.content)['uuid']
-          #return make_response(jsonify({
-          #  'redirect_url': REDIRECT_URL.format(uuid)
-          #}))
+          data = {"$class": "org.identitychain.biznet.user","uuid": matched_token}
+          response = requests.post('http://localhost:3100/api/user', data=data)
+          uuid = json.loads(response.content)['uuid']
           return make_response(jsonify({
-            'redirect_url': None
+           'redirect_url': REDIRECT_URL.format(uuid)
           }))
       else:
         return make_response(jsonify({
