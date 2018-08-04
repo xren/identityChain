@@ -12,6 +12,10 @@ def index(name=None):
     """
     return view('nber/index.html')
 
+@nber.route('/nber/login')
+def login():
+    return view('/nber/login.html')
+
 
 @nber.route('/nber/post_auth')
 def post_auth():
