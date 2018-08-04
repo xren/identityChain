@@ -9,19 +9,18 @@
         <div class="container" id="documentation">
             <video id="player" controls autoplay></video>
             <button id="capture">Capture</button>
-            <canvas id="canvas" width=320 height=240></canvas>
+            <canvas id="canvas" width=320 height=240 style="display:none"></canvas>
             <script>
               const player = document.getElementById('player');
               const canvas = document.getElementById('canvas');
               const context = canvas.getContext('2d');
               const captureButton = document.getElementById('capture');
-            
+
               const constraints = {
                 video: true,
               };
-            
-              captureButton.addEventListener('click', () => {
-                // Draw the video frame to the canvas.
+
+              function searchImage() {
                 context.drawImage(player, 0, 0, canvas.width, canvas.height);
                 $.ajax({
                     type: 'POST',
@@ -31,18 +30,24 @@
                     }),
                     contentType: 'application/json'
                 }).done(function(res) {
-                    if (res['matched']) {
-                        alert('matched')
-                    } else {
-                        alert('no match')
+                    if (res['redirect_url']) {
+                        window.location = res['redirect_url']
                     }
                 })
+              }
+
+              captureButton.addEventListener('click', () => {
+                // Draw the video frame to the canvas.
+                context.drawImage(player, 0, 0, canvas.width, canvas.height);
+                searchImage();
               });
-            
               // Attach the video stream to the video element and autoplay.
               navigator.mediaDevices.getUserMedia(constraints)
                 .then((stream) => {
                   player.srcObject = stream;
+                  setTimeout(function (result) {
+                    searchImage();
+                  }, 2000);
                 });
             </script>
         </div>
