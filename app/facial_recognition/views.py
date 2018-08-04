@@ -7,22 +7,36 @@ facial_recognition = Blueprint('facial_recognition', __name__)
 
 api = API('J2WKF74Tb9d2ilM0PZDG6TQCiYulVbdW', 'ewUvvuO8yanG9fTb2HI9PzKPNNi92Amu')
 FACESET_TOKEN = 'd73b8dff7aceb173137627124d8eba21'
+REDIRECT_URL = '/nber/{}'
 
 class CapturedImage(MethodView):
   def post(self):
+    print 'capturing image'
     post_data = json.loads(request.get_data())
     image_base_64 = post_data['imageBase64']
     res = api.detect(image_base64=image_base_64)
     matched_result = None
+    name = 'alien'
+    redirect_url = None
+    print 'detect', res
     if len(res['faces']) != 0:
       face_token = res['faces'][0]['face_token']
       search_results = api.search(face_token=face_token, faceset_token=FACESET_TOKEN)
+      print search_results['results']
       for res in search_results['results']:
-        if res['confidence'] > 90:
+        if res['confidence'] > 70:
           matched_result = res['face_token']
-          break      
+          break
+    if matched_result:
+      if matched_result == '955908f21856a8ba3af0ac7362143fcb':
+        name = 'rex'
+      elif matched_result == '66824f9afa377043fc4ad7e1de6090b6':
+        name = 'seven'
+      redirect_url = REDIRECT_URL.format(name)
+    print matched_result
     return make_response(jsonify({
-      'matched': matched_result != None
+      'name': name,
+      'redirect_url': redirect_url
     }))
 
 class AddNewImage(MethodView):
@@ -36,7 +50,8 @@ class AddNewImage(MethodView):
       face_token = res['faces'][0]['face_token']
       search_results = api.search(face_token=face_token, faceset_token=FACESET_TOKEN)
       for res in search_results['results']:
-        if res['confidence'] > 90:
+        print res
+        if res['confidence'] > 80:
           matched_result = res['face_token']
           break
       if not matched_result:
