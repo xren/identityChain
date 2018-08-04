@@ -19,11 +19,31 @@ class CapturedImage(MethodView):
       search_results = api.search(face_token=face_token, faceset_token=FACESET_TOKEN)
       for res in search_results['results']:
         if res['confidence'] > 90:
-          matched_result = res['face_token']
-          break      
-    return make_response(jsonify({
-      'matched': matched_result != None
-    }))
+          matched_result = True
+          matched_token = res['face_token']
+          break
+
+      if matched_result:
+        r = requests.get('http://localhost:3100/api/user/'+matched_token)
+        if r.status_code = 200:
+          return make_response(jsonify({
+            'matched': matched_result != None;
+            'uuid': json.loads(r.content)['uuid']
+          }))
+        else:
+          data = {"$class": "org.identitychain.biznet.user","uuid": matched_token}
+          response = requests.post('http://localhost:3100/api/user', data=data)
+
+          return make_response(jsonify({
+            'matched': matched_result != None;
+            'uuid': json.loads(response.content)['uuid']
+          }))
+      else:
+          return make_response(jsonify({
+            'matched': False
+          }))
+    # if matched_reuslt, then find chain id by face_token
+    # if not, add face_token to the chain   
 
 class AddNewImage(MethodView):
   def post(self):
