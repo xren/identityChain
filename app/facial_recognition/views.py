@@ -7,7 +7,7 @@ facial_recognition = Blueprint('facial_recognition', __name__)
 
 api = API('J2WKF74Tb9d2ilM0PZDG6TQCiYulVbdW', 'ewUvvuO8yanG9fTb2HI9PzKPNNi92Amu')
 FACESET_TOKEN = 'd73b8dff7aceb173137627124d8eba21'
-REDIRECT_URL = '/nber/{}'
+REDIRECT_URL = '/nber/post_auth/{}'
 
 class CapturedImage(MethodView):
   def post(self):
@@ -38,18 +38,15 @@ class CapturedImage(MethodView):
               'redirect_url': REDIRECT_URL.format(uuid)
             }))
         else:
-          #data = {"$class": "org.identitychain.biznet.user","uuid": matched_token}
-          #response = requests.post('http://localhost:3100/api/user', data=data)
-          #uuid = json.loads(response.content)['uuid']
-          #return make_response(jsonify({
-          #  'redirect_url': REDIRECT_URL.format(uuid)
-          #}))
+          data = {"$class": "org.identitychain.biznet.user","uuid": matched_token}
+          response = requests.post('http://localhost:3100/api/user', data=data)
+          uuid = json.loads(response.content)['uuid']
           return make_response(jsonify({
-            'redirect_url': None
+           'redirect_url': REDIRECT_URL.format(uuid)
           }))
       else:
         return make_response(jsonify({
-          'redirect_url': None
+          'redirect_url': '/nber/post_auth'
         }))
 
 class AddNewImage(MethodView):
